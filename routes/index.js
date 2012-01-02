@@ -1,5 +1,6 @@
 var redis = require('redis');
 var client = redis.createClient();
+
 /*
  * GET home page.
  */
@@ -22,7 +23,7 @@ exports.get = function(req, res) {
 	});
 };
 
-/* /get?ids=:ids */
+/* /get?ids=:ids 
 exports.getids = function(req, res) {
 	var multi = client.multi();
 	var ids = req.query.ids.split(',');
@@ -48,12 +49,13 @@ exports.getids = function(req, res) {
 		res.end(json);
 	});
 };
-
-/* /like/id */
+*/
+/* /like/id 
 exports.like = function(req, res) {
 	var multi = client.multi();
 	var l = 0;
 	var d = 0;
+	io.sockets.emit('newdata', { data: 'Somebody liked something'})
 	multi.incr(req.params.id + 'likes');
 	multi.get(req.params.id + 'likes');
 	multi.get(req.params.id + 'dislikes');
@@ -63,8 +65,8 @@ exports.like = function(req, res) {
 		res.end("{\"id\": \"" + req.params.id + "\"" + ", \"likes\": " + l + ", \"dislikes\": " + d + "}");	
 	});
 };
-
-/* /dislike/id */
+*/
+/* /dislike/id 
 exports.dislike = function(req, res) {
 	var multi = client.multi();
 	multi.incr(req.params.id + 'dislikes');
@@ -76,3 +78,8 @@ exports.dislike = function(req, res) {
 		res.end("{\"id\": \"" + req.params.id + "\"" + ", \"likes\": " + l + ", \"dislikes\": " + d + "}");
 	});
 };
+
+/* /testsocketio */
+exports.testsocketio = function (req, res) {
+	res.render('testsocketio', { title: 'testing with socketio' })	
+}

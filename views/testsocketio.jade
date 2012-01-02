@@ -1,0 +1,21 @@
+doctype 5
+html
+	head
+		script(type='text/javascript', src='/socket.io/socket.io.js');
+		script(type='text/javascript', src='javascripts/jquery-1.6.1.min.js');
+		script(type='text/javascript', src='javascripts/behaviour.js');
+		script(type='text/javascript', src='javascripts/mootools-1.2.5-core-yc.js');
+		script(type='text/javascript', src='javascripts/prototype.js');		
+		script
+			var socket = io.connect('http://10.207.33.148:8081');
+			socket.on('newdata', function (data){
+				console.log(data);
+				$('datacontainer').innerHTML = data;
+			});		
+			socket.on('connectionsuccess', function (data){
+				console.log(data);
+				$('datacontainer').innerHTML = data.data;
+			});			
+	body
+		p=title
+		#datacontainer
